@@ -7,7 +7,7 @@
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-line fa-3x text-primary"></i>
                             <div class="ms-3">
-                                <p class="mb-2">Today Sale</p>
+                                <p class="mb-2">Today Project</p>
                                 <h6 class="mb-0">$1234</h6>
                             </div>
                         </div>
@@ -16,7 +16,7 @@
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-bar fa-3x text-primary"></i>
                             <div class="ms-3">
-                                <p class="mb-2">Total Sale</p>
+                                <p class="mb-2">Total Client</p>
                                 <h6 class="mb-0">$1234</h6>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-area fa-3x text-primary"></i>
                             <div class="ms-3">
-                                <p class="mb-2">Today Revenue</p>
+                                <p class="mb-2">Today Message</p>
                                 <h6 class="mb-0">$1234</h6>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                         <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                             <i class="fa fa-chart-pie fa-3x text-primary"></i>
                             <div class="ms-3">
-                                <p class="mb-2">Total Revenue</p>
+                                <p class="mb-2">Total Sell</p>
                                 <h6 class="mb-0">$1234</h6>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary text-center rounded p-4">
                             <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Worldwide Sales</h6>
+                                <h6 class="mb-0">View Website</h6>
                                 <a href="">Show All</a>
                             </div>
                             <canvas id="worldwide-sales"></canvas>

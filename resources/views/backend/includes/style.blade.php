@@ -25,3 +25,20 @@
 
     <!-- Template Stylesheet -->
     <link href="{{asset('backend/asset/css/style.css')}}" rel="stylesheet">
+
+    <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+  integrity="sha512-KNuX+z1C1Zt7O5gVjJp5j1xOXF5FYhnbmWZqfXzCk1dCljBl9nyJb0zGSl9bLQ+I+HYKkMFz5k77x0aGbd2U6g=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+   .nav-item.nav-link i {
+  margin-right: 8px;     /* icon আর text-এর মধ্যে spacing */
+  font-size: 16px;       /* icon size balanced */
+  vertical-align: middle;
+}
+</style>
+ 

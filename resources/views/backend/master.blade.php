@@ -3,6 +3,7 @@
 
 <head>
    @include('backend.includes.style')
+   
 </head>
 
 <body>
@@ -19,7 +20,9 @@
          @include('backend.includes.navbar')
             <!-- Navbar End -->
 
-            @yield('content')
+          <main>
+              @yield('content')
+          </main>
 
             <!-- Footer Start -->
           @include('backend.includes.footer')
@@ -34,6 +37,8 @@
 
    <!-- JavaScript Libraries -->
   @include('backend.includes.script')
+
+  @stack('script')
 </body>
 
 </html>
