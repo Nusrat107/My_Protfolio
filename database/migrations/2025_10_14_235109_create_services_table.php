@@ -13,9 +13,26 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('icon');
+            $table->string('icon')->nullable();
             $table->string('title');
-            $table->longText('description');
+            $table->longText('description')->nullable();
+            
+            $table->string('image')->nullable();
+
+            // What You Get section
+            $table->string('get_icon')->nullable();
+            $table->string('get_title')->nullable();
+            $table->longText('get_description')->nullable();
+
+            // Workflow section
+            $table->string('workflow_title')->nullable();
+            $table->longText('workflow_description')->nullable();
+            $table->string('workflow_deadline')->nullable();
+
+            // Technologies
+            $table->string('frontend')->nullable();
+            $table->string('backend')->nullable();
+            $table->string('database')->nullable();
             $table->timestamps();
         });
     }

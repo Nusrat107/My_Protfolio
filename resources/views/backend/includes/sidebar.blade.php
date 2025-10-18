@@ -6,8 +6,11 @@
 
         <div class="d-flex align-items-center ms-4 mb-4">
             <div class="position-relative">
-                <img class="rounded-circle" src="{{ asset('backend/asset/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
-                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                <img class="rounded-circle" src="{{ asset('backend/asset/img/user.jpg') }}" alt=""
+                    style="width: 40px; height: 40px;">
+                <div
+                    class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1">
+                </div>
             </div>
             <div class="ms-3">
                 <h6 class="mb-0">Nusrat Jahan</h6>
@@ -18,7 +21,8 @@
         <div class="navbar-nav w-100">
 
             <!-- Dashboard -->
-            <a href="{{ url('/admin/dashboard') }}" class="nav-item nav-link {{ request()->is('admin/dashboard*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/dashboard') }}"
+                class="nav-item nav-link {{ request()->is('admin/dashboard*') ? 'active' : '' }}">
                 <i class="fa fa-tachometer-alt me-2"></i>Dashboard
             </a>
 
@@ -28,52 +32,60 @@
             </a>
 
             <!-- Portfolio -->
-            <a href="{{ url('/admin/protfolio') }}" class="nav-item nav-link {{ request()->is('admin/protfolio*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/protfolio') }}"
+                class="nav-item nav-link {{ request()->is('admin/protfolio*') ? 'active' : '' }}">
                 <i class="fa fa-briefcase me-2"></i>Portfolio
             </a>
 
             <!-- Services -->
-            <a href="{{ url('/admin/service') }}" class="nav-item nav-link {{ request()->is('service*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/service') }}"
+                class="nav-item nav-link {{ request()->is('admin/service*') ? 'active' : '' }}">
                 <i class="fa fa-cogs me-2"></i>Services
             </a>
 
-            <!-- Category -->
-            <a href="{{ url('/category') }}" class="nav-item nav-link {{ request()->is('category*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/category') }}"
+                class="nav-item nav-link {{ request()->is('admin/category*') ? 'active' : '' }}">
                 <i class="fa fa-tags me-2"></i>Category
             </a>
-
             <!-- Banner -->
-            <a href="{{ url('/banner') }}" class="nav-item nav-link {{ request()->is('banner*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/banner') }}"
+                class="nav-item nav-link {{ request()->is('admin/banner*') ? 'active' : '' }}">
                 <i class="fa fa-image me-2"></i>Banner
             </a>
 
             <!-- Blog -->
-            <a href="{{ url('/blog') }}" class="nav-item nav-link {{ request()->is('blog*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/blog') }}"
+                class="nav-item nav-link {{ request()->is('admin/blog*') ? 'active' : '' }}">
                 <i class="fa fa-blog me-2"></i>Blog
             </a>
 
             <!-- Experience -->
-            <a href="{{ url('/experience') }}" class="nav-item nav-link {{ request()->is('experience*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/education') }}"
+                class="nav-item nav-link {{ request()->is('admin/education*') ? 'active' : '' }}">
                 <i class="fa fa-graduation-cap me-2"></i>Experience
             </a>
 
             <!-- Messages -->
-            <a href="{{ url('/messages') }}" class="nav-item nav-link {{ request()->is('messages*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/messages') }}"
+                class="nav-item nav-link {{ request()->is('admin/messages*') ? 'active' : '' }}">
                 <i class="fa fa-envelope me-2"></i>Messages
             </a>
 
             <!-- Testimonials -->
-            <a href="{{ url('/testimonials') }}" class="nav-item nav-link {{ request()->is('testimonials*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/testimonials') }}"
+                class="nav-item nav-link {{ request()->is('admin/testimonials*') ? 'active' : '' }}">
                 <i class="fa fa-comment-dots me-2"></i>Testimonials
             </a>
 
             <!-- Users -->
-            <a href="{{ url('/users') }}" class="nav-item nav-link {{ request()->is('users*') ? 'active' : '' }}">
+            <a href="{{ url('/admin/users') }}"
+                class="nav-item nav-link {{ request()->is('admin/users*') ? 'active' : '' }}">
                 <i class="fa fa-users me-2"></i>User
             </a>
 
             <!-- Site Settings -->
-            <a href="{{ url('/settings') }}" class="nav-item nav-link {{ request()->is('settings*') ? 'active' : '' }}">
+            <a href="{{ url('admin/setting') }}"
+                class="nav-item nav-link {{ request()->is('admin/setting*') ? 'active' : '' }}">
                 <i class="fa-solid fa-gear me-2"></i>Site Settings
             </a>
 

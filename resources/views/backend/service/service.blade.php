@@ -1,230 +1,255 @@
 @extends('backend.master')
 
 @section('content')
+<div class="container-fluid py-4">
 
-<style>
-/* 🔹 Dark Theme Form & Table */
-.highlighted {
-    background-color: #2b3035;
-    border: 1px solid #dc3545;
-    color: #fff;
-}
-.highlighted:focus {
-    background-color: #1e2125;
-    border-color: #b71c1c;
-    box-shadow: none;
-}
+    <!-- 🔹 Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-danger fw-bold">Manage Services</h3>
+        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addServiceModal">➕ Add New Service</button>
+    </div>
 
-/* 🔹 Table */
-.table-dark th, .table-dark td {
-    vertical-align: middle;
-}
-.table-dark th {
-    background-color: #1e2125;
-    color: #fff;
-}
-.table-dark tbody tr:hover {
-    background-color: #2b3035;
-}
+    <!-- 🔹 Service Cards -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3">
+        @foreach($services as $service)
+        <div class="col">
+            <div class="card service-card h-100 shadow-sm">
 
-/* 🔹 Icon Preview */
-.icon-preview {
-    font-size: 24px;
-    color: #dc3545;
-}
+                <!-- Image clickable for view -->
+                @if($service->image)
+                <div style="position: relative; height: 200px; width: 100%; border-top-left-radius: 20px; border-top-right-radius: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #000; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#viewServiceModal{{ $service->id }}">
+                    <img src="{{ asset('backend/images/service/' . $service->image) }}"
+                         alt="{{ $service->title }}"
+                         style="max-height: 300px; max-width: 700px; border-bottom: 2px solid #dc3545; transition: transform 0.3s ease; border-radius: 0;">
+                </div>
+                @endif
 
-/* 🔹 Buttons */
-.btn-danger, .btn-success, .btn-primary {
-    border-radius: 5px;
-}
-</style>
-
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-secondary rounded p-4">
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="text-light mb-0">🛠 Manage Services</h4>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addServiceModal">➕ Add Service</button>
-        </div>
-
-        {{-- ✅ Success Message --}}
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        @endif
-
-        {{-- ✅ Services Table --}}
-        <table class="table table-dark table-hover align-middle text-center">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Icon</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($services as $key => $service)
-                <tr>
-                    <td>{{ $key+1 }}</td>
-                    <td><i class="{{ $service->icon }} icon-preview"></i></td>
-                    <td>{{ $service->title }}</td>
-                    <td>{{ Str::limit($service->description, 60) }}</td>
-                    <td>
-                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#editServiceModal{{ $service->id }}">✏️</button>
-                        <a href="{{ url('/service/delete/'.$service->id) }}" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm">🗑</a>
-                    </td>
-                </tr>
-
-                {{-- 🔹 Edit Modal --}}
-                <div class="modal fade" id="editServiceModal{{ $service->id }}" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content bg-secondary text-light">
-                            <div class="modal-header border-0">
-                                <h5 class="modal-title">✏️ Edit Service</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                            </div>
-                            <form action="{{ url('/service/update/'.$service->id) }}" method="POST">
-                                @csrf
-                                <div class="modal-body">
-                                    <label class="fw-bold">Service Icon (FontAwesome)</label>
-                                    <input type="text" name="icon" class="form-control highlighted" value="{{ $service->icon }}" placeholder="e.g. fa-solid fa-code" required>
-
-                                    <label class="fw-bold mt-3">Service Title</label>
-                                    <input type="text" name="title" class="form-control highlighted" value="{{ $service->title }}" required>
-
-                                    <label class="fw-bold mt-3">Description</label>
-                                    <textarea name="description" class="form-control highlighted" rows="4" required>{{ $service->description }}</textarea>
-                                </div>
-                                <div class="modal-footer border-0">
-                                    <button type="submit" class="btn btn-danger px-4">💾 Update</button>
-                                </div>
-                            </form>
-                        </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-danger">{{ $service->title }}</h5>
+                    <p class="card-text small text-light">
+                        {!! Str::limit(strip_tags($service->description), 50) !!}
+                    </p>
+                    <div class="mt-auto d-flex justify-content-end">
+                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editServiceModal{{ $service->id }}">✏️ Edit</button>
+                        <a href="{{ url('/service/delete/' . $service->id) }}" class="btn btn-sm btn-danger ms-2" onclick="return confirm('Are you sure?')">🗑️ Delete</a>
                     </div>
                 </div>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+            </div>
+        </div>
 
-{{-- 🔹 Add Service Modal --}}
-<!-- Add Service Modal -->
-<div class="modal fade" id="addServiceModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
+        <!-- 🔹 View Modal -->
+<div class="modal fade" id="viewServiceModal{{ $service->id }}" tabindex="-1">
+    <div class="modal-dialog modal-md"> <!-- smaller modal -->
         <div class="modal-content bg-dark text-light border-0 shadow-lg rounded-3">
-            
             <div class="modal-header border-0">
-                <h5 class="modal-title">➕ Add New Service</h5>
+                <h5 class="modal-title text-danger">👁 Service Details</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
+            <div class="modal-body text-center">
+                @if($service->image)
+                <img src="{{ asset('backend/images/service/' . $service->image) }}" class="img-fluid mb-3" style="max-height:120px; border:2px solid #dc3545;">
+                @endif
 
-            <form action="{{ url('/service/request') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
+                <h5 class="text-warning">Icon</h5>
+                <p>
+                    <i class="{{ $service->icon }} fa-2x text-danger"></i>
+                </p>
 
-                    <!-- 🔹 Basic Info -->
-                    <h6 class="fw-bold text-danger mb-3">📌 Basic Information</h6>
+                <h5 class="text-warning">Title:</h5>
+                <p>{{ $service->title }}</p>
 
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label class="fw-bold">Service Icon (FontAwesome)</label>
-                            <input type="text" name="icon" class="form-control bg-transparent text-light border-danger"
-                                placeholder="e.g. fa-solid fa-code">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="fw-bold">Service Title</label>
-                            <input type="text" name="title" class="form-control bg-transparent text-light border-danger"
-                                placeholder="Enter service title">
-                        </div>
-                    </div>
+                <h5 class="text-warning">Description:</h5>
+                <p>{!! $service->description !!}</p>
 
-                    <label class="fw-bold mt-3">Description</label>
-                    <textarea name="description" class="form-control bg-transparent text-light border-danger"
-                        rows="3" placeholder="Write short description..."></textarea>
+                <h5 class="text-warning">What You Get:</h5>
+                <p><strong>{{ $service->get_title ?? '-' }}</strong> - {{ $service->get_description ?? '-' }}</p>
 
-                    <!-- 🔹 Image Upload -->
-                    <label class="fw-bold mt-3">Service Image</label>
-                    <input type="file" name="image" class="form-control bg-transparent text-light border-danger">
+                <h5 class="text-warning">Workflow:</h5>
+                <p><strong>{{ $service->workflow_title ?? '-' }}</strong> - {{ $service->workflow_description ?? '-' }} ({{ $service->workflow_deadline ?? '-' }})</p>
 
-                    <!-- 🔹 What You Get Section -->
-                    <hr class="border-danger mt-4 mb-3">
-                    <h6 class="fw-bold text-danger mb-3">🎯 What You Get</h6>
-
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">Get Item Icon</label>
-                            <input type="text" name="get_icon[]" class="form-control bg-transparent text-light border-danger"
-                                placeholder="e.g. fa-solid fa-layer-group">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Get Item Title</label>
-                            <input type="text" name="get_title[]" class="form-control bg-transparent text-light border-danger"
-                                placeholder="e.g. Modern Architecture">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="fw-bold">Get Item Description</label>
-                            <textarea name="get_description[]" class="form-control bg-transparent text-light border-danger"
-                                rows="2" placeholder="Short description..."></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Add more with JS later if needed -->
-
-                    <!-- 🔹 Development Workflow -->
-                    <hr class="border-danger mt-4 mb-3">
-                    <h6 class="fw-bold text-danger mb-3">🧩 Development Workflow</h6>
-
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="fw-bold">Step Title</label>
-                            <input type="text" name="workflow_title[]" class="form-control bg-transparent text-light border-danger"
-                                placeholder="e.g. Strategy & Planning">
-                        </div>
-                        <div class="col-md-5">
-                            <label class="fw-bold">Step Description</label>
-                            <textarea name="workflow_description[]" class="form-control bg-transparent text-light border-danger"
-                                rows="2" placeholder="Short step description..."></textarea>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="fw-bold">Deadline</label>
-                            <input type="text" name="workflow_deadline[]" class="form-control bg-transparent text-light border-danger"
-                                placeholder="e.g. 1 week">
-                        </div>
-                    </div>
-
-                    <!-- 🔹 Technologies & Tools -->
-             <hr class="border-danger mt-4 mb-3">
-                    <h6 class="fw-bold text-danger mb-3">🛠️ Technologies & Tools</h6>
-
-                    <div class="mb-3">
-                        <label class="fw-bold">Frontend Technologies</label>
-                        <input type="text" name="frontend" class="form-control highlighted" placeholder="e.g. HTML, CSS, React, Tailwind">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="fw-bold">Backend Technologies</label>
-                        <input type="text" name="backend" class="form-control highlighted" placeholder="e.g. PHP, Laravel, Node.js, Express">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="fw-bold">Database Technologies</label>
-                        <input type="text" name="database" class="form-control highlighted" placeholder="e.g. MySQL, MongoDB, Firebase">
-                    </div>
-
-                </div>
-
-                <div class="modal-footer border-0">
-                    <button type="submit" class="btn btn-danger px-4">💾 Save Service</button>
-                </div>
-            </form>
+                <h5 class="text-warning">Technologies:</h5>
+                <p>Frontend: {{ $service->frontend ?? '-' }}, Backend: {{ $service->backend ?? '-' }}, Database: {{ $service->database ?? '-' }}</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>
 
 
+        <!-- 🔹 Edit Modal -->
+        <div class="modal fade" id="editServiceModal{{ $service->id }}" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content bg-dark text-light border-0 shadow-lg rounded-3">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title text-warning">✏️ Edit Service</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="{{ url('/service/update/' . $service->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body">
+
+                            <!-- Basic Info -->
+                            <h6 class="fw-bold text-danger mb-3">Basic Information</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="fw-bold">Service Icon</label>
+                                    <input type="text" name="icon" value="{{ $service->icon }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="fw-bold">Service Title</label>
+                                    <input type="text" name="title" value="{{ $service->title }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                            </div>
+
+                            <label class="fw-bold mt-3">Description</label>
+                            <textarea id="summernote{{ $service->id }}" name="description" class="form-control bg-transparent text-light border-danger">{!! $service->description !!}</textarea>
+
+                            <label class="fw-bold mt-3">Service Image</label>
+                            <input type="file" name="image" class="form-control bg-transparent text-light border-danger">
+                            @if($service->image)
+                            <img src="{{ asset('backend/images/service/' . $service->image) }}" class="img-fluid mt-2" style="max-height:150px; border:2px solid #dc3545;">
+                            @endif
+
+                            <!-- What You Get -->
+                            <hr class="border-danger mt-4 mb-3">
+                            <h6 class="fw-bold text-danger mb-3">What You Get</h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" name="get_icon" value="{{ $service->get_icon ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="get_title" value="{{ $service->get_title ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="get_description" value="{{ $service->get_description ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                            </div>
+
+                            <!-- Workflow -->
+                            <hr class="border-danger mt-4 mb-3">
+                            <h6 class="fw-bold text-danger mb-3">Development Workflow</h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" name="workflow_title" value="{{ $service->workflow_title ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="workflow_description" value="{{ $service->workflow_description ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="workflow_deadline" value="{{ $service->workflow_deadline ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+                            </div>
+
+                            <!-- Tech -->
+                            <hr class="border-danger mt-4 mb-3">
+                            <h6 class="fw-bold text-danger mb-3">Technologies & Tools</h6>
+                            <div class="mb-3">
+                                <input type="text" name="frontend" value="{{ $service->frontend ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" name="backend" value="{{ $service->backend ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" name="database" value="{{ $service->database ?? '' }}" class="form-control bg-transparent text-light border-danger">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="submit" class="btn btn-warning">💾 Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        $(document).ready(function() {
+            $('#summernote{{ $service->id }}').summernote({
+                placeholder: 'Short description...',
+                tabsize: 2,
+                height: 150,
+                toolbar: [
+                  ['style', ['bold', 'italic', 'underline', 'clear']],
+                  ['font', ['strikethrough','superscript','subscript','fontsize','color']],
+                  ['para', ['ul','ol','paragraph']],
+                  ['insert', ['link','picture','video']],
+                  ['view', ['fullscreen','codeview','help']]
+                ]
+            });
+        });
+        </script>
+
+        @endforeach
+    </div>
+</div>
+
+<!-- 🔹 Add Service Modal -->
+@include('backend.service.add-service-modal')
+
 @endsection
+
+@push('script')
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+@endpush
+
+<style>
+/* ================= Card Styles ================= */
+.service-card {
+    transition: all 0.3s ease-in-out;
+    border-radius: 20px !important;
+    height: 180px;
+    background-color: #000 !important;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    border: 2px solid #dc3545 !important;
+    color: #fff;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(220,53,69,0.5);
+}
+.service-card-body-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.95);
+    color: #fff;
+    padding: 10px;
+    transform: translateY(100%);
+    transition: all 0.3s ease-in-out;
+    font-size: 0.85rem;
+}
+.service-card:hover .service-card-body-overlay {
+    transform: translateY(0);
+}
+
+/* ================= Summernote Dark Theme ================= */
+.note-editor.note-frame {
+    background-color: #000 !important;
+    border: 2px solid #dc3545 !important;
+    color: #fff !important;
+}
+.note-editor.note-frame .note-editing-area .note-editable {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+.note-editor.note-frame .note-toolbar {
+    background-color: #000 !important;
+    border-bottom: 1px solid #dc3545 !important;
+}
+.note-editor.note-frame .note-btn {
+    color: #000 !important;
+}
+.note-editor.note-frame .note-codeview {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+.note-editor.note-frame .note-editing-area .note-editable:focus {
+    outline: 2px solid #dc3545 !important;
+}
+</style>

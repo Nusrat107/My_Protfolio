@@ -12,4 +12,9 @@ class AdminAuthController extends Controller
     {
         return view('backend.admin-login');
     }
+
+     public function logOut(){
+        Auth::logout();
+        return redirect('/');
+    }
 }
