@@ -31,7 +31,7 @@
     </div>
 
     <div class="card card-dark p-4" style="background-color:#000; border:2px solid #dc3545; border-radius:12px;">
-        <form action="{{ url('admin/settings/update') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ url('admin/update') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="row">

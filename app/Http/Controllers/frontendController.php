@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\About;
+use App\Models\Banner;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 
 class frontendController extends Controller
 {
     public function index()
     {
-        return view('frontend.index');
+        $banner = Banner::first();
+        $about = About::first();
+        $skills = Skill::all();
+        return view('frontend.index', compact('banner', 'about','skills'));
     }
 
     public function portfolioDetails()

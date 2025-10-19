@@ -111,4 +111,4 @@ Route::get('admin/users', [UserController::class, 'index']);
 
     //SiteSetting........
      Route::get('admin/setting', [SiteSettingController::class, 'setting']);
-    Route::post('/update', [SiteSettingController::class, 'update']);
+    Route::post('admin/update', [SiteSettingController::class, 'update']);
