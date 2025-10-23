@@ -9,5 +9,6 @@ class Education extends Model
 {
    
     use HasFactory;
+    protected $guarded = [];
     protected $fillable = ['degree','institution','year','description'];
 }

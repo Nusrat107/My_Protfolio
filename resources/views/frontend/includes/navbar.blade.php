@@ -4,7 +4,7 @@
       <a href="{{url('/')}}" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
-        <h1 class="sitename">Craftivo</h1>
+        <h1 class="sitename">{{ $setting->title}}</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -21,7 +21,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted" href="#about">Get Started</a>
+      <a class="btn-getstarted" href="https://wa.me/8801890331107" target="_blank">Get Started</a>
 
     </div>
   </header>

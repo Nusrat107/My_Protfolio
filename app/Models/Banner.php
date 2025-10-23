@@ -9,6 +9,8 @@ class Banner extends Model
 {
     use HasFactory;
 
+protected $guarded = [];
+
      protected $fillable = [
         'title', 'subtitle', 'button_text', 'button_link', 
         'image', 'facebook', 'instagram', 'twitter', 'linkedin'

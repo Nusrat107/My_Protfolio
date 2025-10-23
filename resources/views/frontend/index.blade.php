@@ -1,5 +1,65 @@
 @extends('frontend.master')
+<style>
+/* 🔹 শুধুমাত্র Contact Form Box এর জন্য */
+.contact-form-box {
+    background-color: #000;
+    padding: 40px;
+    border: 2px solid #dc3545;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(220, 53, 69, 0.4);
+}
 
+/* 🔹 Input & Textarea */
+.contact-form-box .form-control {
+    background-color: #000 !important; /* pure black inside */
+    border: 2px solid #dc3545;
+    color: #fff !important; /* ← এখানে !important লাগছে */
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+/* 🔹 Input focus effect */
+.contact-form-box .form-control:focus {
+    background-color: #000 !important;
+    color: #fff !important; /* ← focus এও সাদা টেক্সট */
+    outline: none;
+    border-color: #ff4d6d;
+    box-shadow: 0 0 8px #ff4d6d;
+}
+
+/* 🔹 Placeholder color */
+.contact-form-box .form-control::placeholder {
+    color: #aaa !important; /* placeholder হালকা ধূসর */
+}
+
+/* 🔹 Submit Button */
+.contact-form-box button[type="submit"] {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.contact-form-box button[type="submit"]:hover {
+    background-color: #ff4d6d;
+    box-shadow: 0 0 10px #ff4d6d;
+}
+
+/* 🔹 Success Message */
+.contact-form-box .alert-success {
+    background-color: #198754;
+    border: 2px solid #28a745;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+</style>
 @section('content')
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
@@ -76,7 +136,7 @@
                         <div class="profile-actions">
                             <a href="{{ 'backend/files/cv/' . $about->cv_link }}" class="btn-primary"><i
                                     class="bi bi-download"></i> Download CV</a>
-                            <a href="#" class="btn-secondary"><i class="bi bi-envelope"></i> Contact</a>
+                            <a href="https://wa.me/8801890331107" class="btn-secondary"><i class="bi bi-envelope"></i> Contact</a>
                         </div>
 
                         <div class="social-connect">
@@ -92,19 +152,7 @@
                         <div class="bio-section">
                             <div class="section-tag">Who I am</div>
                             <h2>Who I'm</h2>
-                            <p>Hi, I’m a passionate Web Developer dedicated to building modern, user-friendly, and
-                                high-performing websites. I love turning creative ideas into functional digital experiences
-                                that not only look great but also deliver real results.
-
-                                With strong skills in HTML, CSS, JavaScript, Laravel, and PHP, I focus on crafting clean,
-                                responsive, and SEO-friendly web solutions. Every project I take on is an opportunity to
-                                learn, innovate, and help businesses grow through the power of technology.
-                            </p>
-                            <p>Beyond coding, I enjoy exploring UI/UX design trends, optimizing web performance, and
-                                ensuring that every website I build tells a unique story.
-
-                                My Goal: To create meaningful digital products that make a lasting impact.
-                                My Motto: “Code with passion, design with purpose.”</p>
+                            <p>{!! $about->biography !!}</p>
 
                         </div>
 
@@ -356,125 +404,30 @@ Collaborated with creative teams to turn ideas into functional and visually appe
         <div class="container section-title" data-aos="fade-up">
             <span class="subtitle">Services</span>
             <h2>Services</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit. Sed ut perspiciatis unde
-                omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam</p>
+            <p>I offer modern and creative web development services tailored to bring ideas to life with clean design and powerful functionality.
+From responsive websites to dynamic web solutions, I focus on delivering quality, performance, and user satisfaction.</p>
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="row gy-4">
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+              @foreach ($services as $service)
+                    <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
                     <div class="service-item">
                         <div class="icon-wrapper">
-                            <i class="bi bi-palette"></i>
+                            <i class="{{ $service->icon }}"></i>
                         </div>
-                        <h4>Brand Identity</h4>
-                        <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus vivamus magna.</p>
+                        <h4>{{ $service->title}}</h4>
+                        <p>{{ $service->description}}</p>
                         <a href="{{ url('/service-details') }}" class="read-more">
                             <span>Explore</span>
                             <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
                 </div>
+              @endforeach
 
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="service-item featured">
-                        <div class="featured-tag">Featured</div>
-                        <div class="icon-wrapper">
-                            <i class="bi bi-layout-text-window-reverse"></i>
-                        </div>
-                        <h4>UI/UX Design</h4>
-                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui donec rutrum.</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
-                            <span>Explore</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-item">
-                        <div class="icon-wrapper">
-                            <i class="bi bi-code-slash"></i>
-                        </div>
-                        <h4>Development</h4>
-                        <p>Praesent sapien massa convallis a pellentesque nec egestas non nisi cras ornare arcu.</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
-                            <span>Explore</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="service-item">
-                        <div class="icon-wrapper">
-                            <i class="bi bi-phone"></i>
-                        </div>
-                        <h4>Mobile Apps</h4>
-                        <p>Vivamus suscipit tortor eget felis porttitor volutpat quisque velit nisi pretium ut lacinia.</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
-                            <span>Explore</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="service-item">
-                        <div class="icon-wrapper">
-                            <i class="bi bi-megaphone"></i>
-                        </div>
-                        <h4>Digital Marketing</h4>
-                        <p>Nulla porttitor accumsan tincidunt curabitur aliquet quam id dui posuere blandit mauris.</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
-                            <span>Explore</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="service-item">
-                        <div class="icon-wrapper">
-                            <i class="bi bi-search"></i>
-                        </div>
-                        <h4>SEO Services</h4>
-                        <p>Pellentesque in ipsum id orci porta dapibus donec sollicitudin molestie malesuada proin.</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
-                            <span>Explore</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="service-item">
-                        <div class="icon-wrapper">
-                            <i class="bi bi-graph-up-arrow"></i>
-                        </div>
-                        <h4>Analytics</h4>
-                        <p>Sed porttitor lectus nibh curabitur arcu erat accumsan id imperdiet et porttitor at sem.</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
-                            <span>Explore</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="service-item">
-                        <div class="icon-wrapper">
-                            <i class="bi bi-shield-check"></i>
-                        </div>
-                        <h4>Security</h4>
-                        <p>Vivamus magna justo lacinia eget consectetur sed convallis at tellus mauris blandit aliquet.</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
-                            <span>Explore</span>
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
+                
 
             </div>
 
@@ -488,7 +441,7 @@ Collaborated with creative teams to turn ideas into functional and visually appe
                                     needs</p>
                             </div>
                             <div class="col-lg-4 text-lg-end text-center">
-                                <a href="{{ url('/service-details') }}" class="cta-btn">Start Your Project</a>
+                                <a href="#contact" class="cta-btn">Start Your Project</a>
                             </div>
                         </div>
                     </div>
@@ -506,8 +459,7 @@ Collaborated with creative teams to turn ideas into functional and visually appe
         <div class="container section-title" data-aos="fade-up">
             <span class="subtitle">Portfolio</span>
             <h2>Portfolio</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit. Sed ut perspiciatis unde
-                omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam</p>
+            <p> I’m a Web Developer and Designer who loves turning creative ideas into real, interactive digital experiences. From building responsive websites to crafting smooth user interfaces, I focus on making every project functional, beautiful, and user-friendly.</p>
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -515,25 +467,26 @@ Collaborated with creative teams to turn ideas into functional and visually appe
             <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
                 <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="200">
                     <li data-filter="*" class="filter-active">All Work</li>
-                    <li data-filter=".filter-creative">Creative</li>
+                    <li data-filter=".filter-creative">Design</li>
                     <li data-filter=".filter-digital">Digital</li>
                     <li data-filter=".filter-strategy">Strategy</li>
                     <li data-filter=".filter-development">Development</li>
                 </ul>
 
                 <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-creative">
+                    @foreach ($protfolios as $protfolio)
+                        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-creative">
                         <div class="portfolio-card">
                             <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-1.webp') }}"
+                                <img src="{{ asset('uploads/protfolios/'. $protfolio->image) }}"
                                     alt="Creative Project" class="img-fluid" loading="lazy">
                                 <div class="portfolio-overlay">
                                     <div class="portfolio-info">
-                                        <span class="project-category">Creative Design</span>
-                                        <h4>Visual Identity System</h4>
+                                        <span class="project-category">{{  $protfolio->category}}</span>
+                                        <h4>{{$protfolio->name}}</h4>
                                     </div>
                                     <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-1.webp') }}"
+                                        <a href="{{ asset('uploads/protfolios/'. $protfolio->image) }}"
                                             class="glightbox portfolio-link">
                                             <i class="bi bi-plus-lg"></i>
                                         </a>
@@ -552,161 +505,9 @@ Collaborated with creative teams to turn ideas into functional and visually appe
                             </div>
                         </div>
                     </div>
+                    @endforeach
 
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-digital">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-2.webp') }}"
-                                    alt="Digital Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Digital Experience</span>
-                                        <h4>Interactive Web Platform</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-2.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Web Design</span>
-                                    <span class="tag">Development</span>
-                                </div>
-                                <div class="project-year">2024</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-strategy">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-3.webp') }}"
-                                    alt="Strategy Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Brand Strategy</span>
-                                        <h4>Market Positioning</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-3.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Strategy</span>
-                                    <span class="tag">Consulting</span>
-                                </div>
-                                <div class="project-year">2023</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-development">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-4.webp') }}"
-                                    alt="Development Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Full Stack</span>
-                                        <h4>Custom Application</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-4.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">React</span>
-                                    <span class="tag">Node.js</span>
-                                </div>
-                                <div class="project-year">2024</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-creative">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-5.webp') }}"
-                                    alt="Creative Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Art Direction</span>
-                                        <h4>Campaign Design</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-5.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Creative</span>
-                                    <span class="tag">Campaign</span>
-                                </div>
-                                <div class="project-year">2024</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-digital">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-6.webp') }}"
-                                    alt="Digital Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Digital Product</span>
-                                        <h4>Mobile Experience</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-6.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Mobile</span>
-                                    <span class="tag">UI/UX</span>
-                                </div>
-                                <div class="project-year">2023</div>
-                            </div>
-                        </div>
-                    </div>
+                   
                 </div>
 
             </div>
@@ -727,6 +528,8 @@ Collaborated with creative teams to turn ideas into functional and visually appe
         </div>
 
     </section><!-- /Portfolio Section -->
+
+
     <!-- Blog-->
     <section id="blog" class="portfolio section">
 
@@ -734,38 +537,31 @@ Collaborated with creative teams to turn ideas into functional and visually appe
         <div class="container section-title" data-aos="fade-up">
             <span class="subtitle">Blog</span>
             <h2>Blog</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit. Sed ut perspiciatis unde
-                omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam</p>
+            <p>Welcome to my Blog, where I share insights, tips, and tutorials on Web Development, UI/UX Design, Digital Marketing, and Technology. Whether you’re a beginner or a fellow professional, you’ll find useful guides, latest trends, and practical advice to help you grow and stay updated in the digital world.</p>
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-                <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="200">
-                    <li data-filter="*" class="filter-active">All Work</li>
-                    <li data-filter=".filter-creative">Creative</li>
-                    <li data-filter=".filter-digital">Digital</li>
-                    <li data-filter=".filter-strategy">Strategy</li>
-                    <li data-filter=".filter-development">Development</li>
-                </ul>
 
                 <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-creative">
+                    @foreach ($blogs as $blog)
+                        <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-creative">
                         <div class="portfolio-card">
                             <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-1.webp') }}"
+                                <img src="{{ asset('uploads/blog/' .$blog->image) }}"
                                     alt="Creative Project" class="img-fluid" loading="lazy">
                                 <div class="portfolio-overlay">
                                     <div class="portfolio-info">
-                                        <span class="project-category">Creative Design</span>
-                                        <h4>Visual Identity System</h4>
+                                        <span class="project-category">{{ $protfolio->category}}</span>
+                                        <h4> {{$blog->title}}</h4>
                                     </div>
                                     <div class="portfolio-actions">
                                         <a href="{{ asset('frontend/assets/img/portfolio/portfolio-1.webp') }}"
                                             class="glightbox portfolio-link">
                                             <i class="bi bi-plus-lg"></i>
                                         </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
+                                        <a href="{{ url('/blog-details') }}" class="portfolio-details">
                                             <i class="bi bi-arrow-right"></i>
                                         </a>
                                     </div>
@@ -780,161 +576,8 @@ Collaborated with creative teams to turn ideas into functional and visually appe
                             </div>
                         </div>
                     </div>
+                    @endforeach
 
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-digital">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-2.webp') }}"
-                                    alt="Digital Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Digital Experience</span>
-                                        <h4>Interactive Web Platform</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-2.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Web Design</span>
-                                    <span class="tag">Development</span>
-                                </div>
-                                <div class="project-year">2024</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-strategy">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-3.webp') }}"
-                                    alt="Strategy Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Brand Strategy</span>
-                                        <h4>Market Positioning</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-3.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Strategy</span>
-                                    <span class="tag">Consulting</span>
-                                </div>
-                                <div class="project-year">2023</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-development">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-4.webp') }}"
-                                    alt="Development Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Full Stack</span>
-                                        <h4>Custom Application</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-4.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">React</span>
-                                    <span class="tag">Node.js</span>
-                                </div>
-                                <div class="project-year">2024</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-creative">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-5.webp') }}"
-                                    alt="Creative Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Art Direction</span>
-                                        <h4>Campaign Design</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-5.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Creative</span>
-                                    <span class="tag">Campaign</span>
-                                </div>
-                                <div class="project-year">2024</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-digital">
-                        <div class="portfolio-card">
-                            <div class="portfolio-image-container">
-                                <img src="{{ asset('frontend/assets/img/portfolio/portfolio-6.webp') }}"
-                                    alt="Digital Project" class="img-fluid" loading="lazy">
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-info">
-                                        <span class="project-category">Digital Product</span>
-                                        <h4>Mobile Experience</h4>
-                                    </div>
-                                    <div class="portfolio-actions">
-                                        <a href="{{ asset('frontend/assets/img/portfolio/portfolio-6.webp') }}"
-                                            class="glightbox portfolio-link">
-                                            <i class="bi bi-plus-lg"></i>
-                                        </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="portfolio-meta">
-                                <div class="project-tags">
-                                    <span class="tag">Mobile</span>
-                                    <span class="tag">UI/UX</span>
-                                </div>
-                                <div class="project-year">2023</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -952,8 +595,7 @@ Collaborated with creative teams to turn ideas into functional and visually appe
         <div class="container section-title" data-aos="fade-up">
             <span class="subtitle">Contact</span>
             <h2>Contact</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit. Sed ut perspiciatis unde
-                omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam</p>
+            <p>I’m always open to discuss new projects, creative ideas, or opportunities. Drop a message and let’s get connected!</p>
         </div><!-- End Section Title -->
 
         <div class="container">
@@ -967,7 +609,7 @@ Collaborated with creative teams to turn ideas into functional and visually appe
                         </div>
                         <div>
                             <h3>Address</h3>
-                            <p>2847 Oak Street, San Francisco, CA 94102</p>
+                            <p>{{ $about->location }}</p>
                         </div>
                     </div>
 
@@ -977,7 +619,7 @@ Collaborated with creative teams to turn ideas into functional and visually appe
                         </div>
                         <div>
                             <h3>Call Me</h3>
-                            <p>+1 (555) 234-5678</p>
+                            <p>{{ $about->phone }}</p>
                         </div>
                     </div>
 
@@ -987,46 +629,53 @@ Collaborated with creative teams to turn ideas into functional and visually appe
                         </div>
                         <div>
                             <h3>Email Me</h3>
-                            <p>alex@example.com</p>
+                            <p>{{ $about->email }}</p>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="col-lg-8">
-                    <form action="forms/contact.php" method="post" class="php-email-form">
-                        <div class="row gy-4">
-
-                            <div class="col-md-6">
-                                <input type="text" name="name" class="form-control" placeholder="Your Name"
-                                    required="">
-                            </div>
-
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" placeholder="Your Email"
-                                    required="">
-                            </div>
-
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" name="subject" placeholder="Subject"
-                                    required="">
-                            </div>
-
-                            <div class="col-md-12">
-                                <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                            </div>
-
-                            <div class="col-md-12 text-center">
-                                <div class="loading">Loading</div>
-                                <div class="error-message"></div>
-                                <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                                <button type="submit">Send Message</button>
-                            </div>
-
-                        </div>
-                    </form>
+              <div class="col-lg-8">
+        <div class="contact-form-box">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
                 </div>
+            @endif
+
+            <form action="{{ url('/contact/store') }}" method="POST" novalidate>
+                @csrf
+                <div class="row gy-4">
+
+                    <div class="col-md-6">
+                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                    </div>
+
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                    </div>
+
+                    <div class="col-md-12">
+                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                    </div>
+
+                    <div class="col-md-12 text-center">
+                        <button type="submit">Send Message</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+
 
             </div>
 

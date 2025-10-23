@@ -4,7 +4,7 @@
 <div class="container-fluid py-4">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="text-danger fw-bold">📩 Contact Messages</h3>
+        <h3 class="text-danger fw-bold"> Contact Messages</h3>
     </div>
 
     <div class="card card-dark p-3" style="background-color: #000; border: 2px solid #dc3545; border-radius: 12px;">
