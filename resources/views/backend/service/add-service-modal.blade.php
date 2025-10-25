@@ -37,6 +37,12 @@
                     <input type="file" name="image"
                         class="form-control bg-transparent text-light border-danger">
 
+                        <div class="col-md-12 mt-3">
+                            <label class="fw-bold">Starting Price</label>
+                            <input type="text" name="starting_price"
+                                class="form-control bg-transparent text-light border-danger"
+                                placeholder="$">
+                        </div>
                     <!-- 🎁 What You Get -->
                     <hr class="border-danger mt-4 mb-3">
                     <h6 class="fw-bold text-danger mb-3">What You Get</h6>
@@ -77,24 +83,33 @@
                         </div>
                     </div>
 
-                    <!-- 🛠️ Tech -->
-                    <hr class="border-danger mt-4 mb-3">
-                    <h6 class="fw-bold text-danger mb-3">Technologies & Tools</h6>
-                    <div class="mb-3">
-                        <input type="text" name="frontend"
-                            class="form-control bg-transparent text-light border-danger" placeholder="HTML, CSS, JS">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" name="backend"
-                            class="form-control bg-transparent text-light border-danger"
-                            placeholder="Laravel, Node.js">
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" name="database"
-                            class="form-control bg-transparent text-light border-danger" placeholder="MySQL, MongoDB">
-                    </div>
+             <!-- 🛠️ Tech -->
+<hr class="border-danger mt-4 mb-3">
+<h6 class="fw-bold text-danger mb-3">Technologies & Tools</h6>
 
-                </div>
+<div class="mb-3" id="frontend-wrapper">
+  <label class="fw-bold">Frontend</label>
+  <div class="d-flex gap-2 mb-2">
+    <input type="text" name="frontend[]" class="form-control bg-transparent text-light border-danger" placeholder="HTML, CSS, JS">
+    <button type="button" class="btn btn-danger add-frontend">+Add</button>
+  </div>
+</div>
+
+<div class="mb-3" id="backend-wrapper">
+  <label class="fw-bold">Backend</label>
+  <div class="d-flex gap-2 mb-2">
+    <input type="text" name="backend[]" class="form-control bg-transparent text-light border-danger" placeholder="Laravel, Node.js">
+    <button type="button" class="btn btn-danger add-backend">+Add</button>
+  </div>
+</div>
+
+<div class="mb-3" id="database-wrapper">
+  <label class="fw-bold">Database</label>
+  <div class="d-flex gap-2 mb-2">
+    <input type="text" name="database[]" class="form-control bg-transparent text-light border-danger" placeholder="MySQL, MongoDB">
+    <button type="button" class="btn btn-danger add-database">+Add</button>
+  </div>
+</div>
 
                 <div class="modal-footer border-0">
                     <button type="submit" class="btn btn-danger px-4">💾 Save Service</button>
@@ -111,23 +126,58 @@
 
 <!-- Summernote Initialization -->
 <script>
-$(document).ready(function() {
+$(document).ready(function () {
+    // Summernote initialization
     $('#description').summernote({
         placeholder: 'Short description...',
         tabsize: 2,
         height: 150,
         toolbar: [
-          ['style', ['bold', 'italic', 'underline', 'clear']],
-          ['font', ['strikethrough', 'superscript', 'subscript']],
-          ['fontsize', ['fontsize']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['insert', ['link', 'picture', 'video']],
-          ['view', ['fullscreen', 'codeview', 'help']]
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
         ]
+    });
+
+    // Add More Buttons
+    $('.add-frontend').click(function () {
+        $('#frontend-wrapper').append(`
+          <div class="d-flex gap-2 mb-2">
+            <input type="text" name="frontend[]" class="form-control bg-transparent text-light border-danger" placeholder="HTML, CSS, JS">
+            <button type="button" class="btn btn-outline-danger remove-field">−</button>
+          </div>
+        `);
+    });
+
+    $('.add-backend').click(function () {
+        $('#backend-wrapper').append(`
+          <div class="d-flex gap-2 mb-2">
+            <input type="text" name="backend[]" class="form-control bg-transparent text-light border-danger" placeholder="Laravel, Node.js">
+            <button type="button" class="btn btn-outline-danger remove-field">−</button>
+          </div>
+        `);
+    });
+
+    $('.add-database').click(function () {
+        $('#database-wrapper').append(`
+          <div class="d-flex gap-2 mb-2">
+            <input type="text" name="database[]" class="form-control bg-transparent text-light border-danger" placeholder="MySQL, MongoDB">
+            <button type="button" class="btn btn-outline-danger remove-field">−</button>
+          </div>
+        `);
+    });
+
+    // Remove field
+    $(document).on('click', '.remove-field', function () {
+        $(this).parent().remove();
     });
 });
 </script>
+
 
 <!-- Full Black Background + Red Border + Black Icons -->
 <style>
@@ -163,5 +213,21 @@ $(document).ready(function() {
 
 .note-editor.note-frame .note-editing-area .note-editable:focus {
     outline: 2px solid #dc3545 !important; /* red focus */
+}
+
+.add-frontend, .add-backend, .add-database, .remove-field {
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.remove-field {
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  background-color: transparent;
+}
+.remove-field:hover {
+  background-color: #dc3545;
+  color: #fff;
 }
 </style>

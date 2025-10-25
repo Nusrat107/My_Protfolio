@@ -10,6 +10,7 @@ use App\Models\Protfolio;
 use App\Models\Service;
 use App\Models\SiteSetting;
 use App\Models\Skill;
+use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
 class frontendController extends Controller
@@ -26,29 +27,44 @@ class frontendController extends Controller
       $setting = SiteSetting::first();
         return view('frontend.index', compact('banner', 'about','skills','services','protfolios','blogs','setting'));
     }
+
+     public function contact()
+    {
+        $about = About::first();
+        $setting = SiteSetting::first();
+
+        return view('frontend.contact', compact('about', 'setting'));
+    }
     public function contactStore(Request $request)
     {
         $contact = new Message();
 
         $contact->name = $request->name;
         $contact->email = $request->email;
+        $contact->phone = $request->phone;
         $contact->subject = $request->subject;
         $contact->message = $request->message;
 
         $contact->save();
         return back()->with('success','Message sent successfull');
     }
-    public function portfolioDetails()
-    {
-        return view('frontend.portfolioDetails');
-    }
-    public function serviceDetails()
+   public function portfolioDetails($id)
     {
         $banner = Banner::first();
-    $about = About::first();
-     $setting = SiteSetting::first();
-    return view('frontend.serviceDetails', compact('banner', 'about','setting'));
+        $protfolio = Protfolio::findOrFail($id);
+        return view('frontend.portfolioDetails', compact('protfolio','banner'));
     }
+
+    public function serviceDetails($id)
+{
+    $service = Service::findOrFail($id);
+    $banner = Banner::first();
+    $about = About::first();
+    $setting = SiteSetting::first();
+    $testimonial = Testimonial::first();
+
+    return view('frontend.serviceDetails', compact('banner', 'about', 'setting', 'service', 'testimonial'));
+}
     public function blogDetails()
     {
         $banner = Banner::first();

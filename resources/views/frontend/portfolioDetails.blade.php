@@ -9,7 +9,7 @@
       <div class="container section-title" data-aos="fade-up">
         <span class="subtitle">Portfolio Details</span>
         <h2>Portfolio Details</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam</p>
+        <p>Our portfolio showcases a wide range of projects that combine creativity, technology, and innovation. Each project reflects our commitment to delivering exceptional digital solutions that drive results for our clients. Explore our work to see how we bring ideas to life, from concept to completion.</p>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -37,24 +37,12 @@
                 }
               </script>
               <div class="swiper-wrapper">
-
-                <div class="swiper-slide">
-                  <img src="{{asset('frontend/assets/img/portfolio/portfolio-3.webp')}}" alt="Portfolio Image" class="img-fluid">
-                </div>
-
-                <div class="swiper-slide">
-                  <img src="{{asset('frontend/assets/img/portfolio/portfolio-6.webp')}}" alt="Portfolio Image" class="img-fluid">
-                </div>
-
-                <div class="swiper-slide">
-                  <img src="{{asset('frontend/assets/img/portfolio/portfolio-9.webp')}}" alt="Portfolio Image" class="img-fluid">
-                </div>
-
-                <div class="swiper-slide">
-                  <img src="{{asset('frontend/assets/img/portfolio/portfolio-11.webp')}}" alt="Portfolio Image" class="img-fluid">
-                </div>
-
-              </div>
+    <div class="swiper-slide">
+        <img src="{{ asset('uploads/protfolios/' . $protfolio->image) }}" 
+             alt="{{ $protfolio->name }}" 
+             class="img-fluid">
+    </div>
+</div>
               <div class="swiper-pagination"></div>
             </div>
 
@@ -63,7 +51,7 @@
 
               <div class="meta-info">
                 <span class="date"><i class="bi bi-calendar"></i> March 15, 2024</span>
-                <span class="category"><i class="bi bi-tag"></i> Web Development</span>
+                <span class="category"><i class="bi bi-tag"></i> Web Design</span>
                 <span class="client"><i class="bi bi-building"></i> TechCorp Solutions</span>
               </div>
 
@@ -126,7 +114,7 @@
                 </div>
                 <div class="info-item">
                   <span class="label">Category</span>
-                  <span class="value">Web Development</span>
+                  <span class="value">Web Design</span>
                 </div>
                 <div class="info-item">
                   <span class="label">Date</span>
@@ -140,7 +128,7 @@
                   <span class="label">Technologies</span>
                   <span class="value">React, Node.js, MongoDB</span>
                 </div>
-                <a href="https://www.example.com" class="btn-primary" target="_blank">
+                <a href="#" class="btn-primary" target="_blank">
                   <i class="bi bi-box-arrow-up-right"></i> View Live Project
                 </a>
               </div>
@@ -148,10 +136,10 @@
               <div class="share-card" data-aos="fade-up" data-aos-delay="300">
                 <h3>Share This Project</h3>
                 <div class="social-links">
-                  <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                  <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                  <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                  <a href="#" class="pinterest"><i class="bi bi-pinterest"></i></a>
+                  <a href="{{ $banner->facebook}}" class="facebook"><i class="bi bi-facebook"></i></a>
+                  <a href="{{ $banner->twitter}}" class="twitter"><i class="bi bi-twitter"></i></a>
+                  <a href="{{ $banner->linkedin}}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                  <a href="https://www.pinterest.com/nusratjahanitbd" class="pinterest"><i class="bi bi-pinterest"></i></a>
                 </div>
               </div>
 

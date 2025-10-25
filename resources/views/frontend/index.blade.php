@@ -419,7 +419,7 @@ From responsive websites to dynamic web solutions, I focus on delivering quality
                         </div>
                         <h4>{{ $service->title}}</h4>
                         <p>{{ $service->description}}</p>
-                        <a href="{{ url('/service-details') }}" class="read-more">
+                        <a href="{{ url('/service-details/'.$service->id) }}" class="read-more">
                             <span>Explore</span>
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -490,7 +490,7 @@ From responsive websites to dynamic web solutions, I focus on delivering quality
                                             class="glightbox portfolio-link">
                                             <i class="bi bi-plus-lg"></i>
                                         </a>
-                                        <a href="{{ url('/portfolio-details') }}" class="portfolio-details">
+                                        <a href="{{ url('/portfolio/details/'.$protfolio->id) }}" class="portfolio-details">
                                             <i class="bi bi-arrow-right"></i>
                                         </a>
                                     </div>
@@ -655,10 +655,13 @@ From responsive websites to dynamic web solutions, I focus on delivering quality
                         <input type="email" class="form-control" name="email" placeholder="Your Email" required>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="phone" placeholder="Your Phone" required>
+                    </div>
+                    <div class="col-md-6">
                         <input type="text" class="form-control" name="subject" placeholder="Subject" required>
                     </div>
-
+                    
                     <div class="col-md-12">
                         <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
                     </div>

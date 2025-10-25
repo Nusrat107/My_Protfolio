@@ -61,14 +61,21 @@
                 <h5 class="text-warning">Description:</h5>
                 <p>{!! $service->description !!}</p>
 
+                <h5 class="text-warning">Starting Price</h5>
+                <p>{!! $service->starting_price !!}</p>
+
                 <h5 class="text-warning">What You Get:</h5>
                 <p><strong>{{ $service->get_title ?? '-' }}</strong> - {{ $service->get_description ?? '-' }}</p>
 
                 <h5 class="text-warning">Workflow:</h5>
                 <p><strong>{{ $service->workflow_title ?? '-' }}</strong> - {{ $service->workflow_description ?? '-' }} ({{ $service->workflow_deadline ?? '-' }})</p>
 
-                <h5 class="text-warning">Technologies:</h5>
-                <p>Frontend: {{ $service->frontend ?? '-' }}, Backend: {{ $service->backend ?? '-' }}, Database: {{ $service->database ?? '-' }}</p>
+               <h5 class="text-warning">Technologies:</h5>
+<p>
+    Frontend: {{ is_array($service->frontend) ? implode(', ', $service->frontend) : ($service->frontend ?? '-') }},
+    Backend: {{ is_array($service->backend) ? implode(', ', $service->backend) : ($service->backend ?? '-') }},
+    Database: {{ is_array($service->database) ? implode(', ', $service->database) : ($service->database ?? '-') }}
+</p>
             </div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -112,6 +119,11 @@
                             <img src="{{ asset('backend/images/service/' . $service->image) }}" class="img-fluid mt-2" style="max-height:150px; border:2px solid #dc3545;">
                             @endif
 
+                            <div class="col-md-12 mt-3">
+                                    <label class="fw-bold">Starting Price</label>
+                                    <input type="text" name="starting_price" value="{{ $service->starting_price }}" class="form-control bg-transparent text-light border-danger">
+                                </div>
+
                             <!-- What You Get -->
                             <hr class="border-danger mt-4 mb-3">
                             <h6 class="fw-bold text-danger mb-3">What You Get</h6>
@@ -142,18 +154,34 @@
                                 </div>
                             </div>
 
-                            <!-- Tech -->
-                            <hr class="border-danger mt-4 mb-3">
-                            <h6 class="fw-bold text-danger mb-3">Technologies & Tools</h6>
-                            <div class="mb-3">
-                                <input type="text" name="frontend" value="{{ $service->frontend ?? '' }}" class="form-control bg-transparent text-light border-danger">
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" name="backend" value="{{ $service->backend ?? '' }}" class="form-control bg-transparent text-light border-danger">
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" name="database" value="{{ $service->database ?? '' }}" class="form-control bg-transparent text-light border-danger">
-                            </div>
+                           <!-- 🛠️ Technologies & Tools -->
+@php
+    $frontendArray = is_array($service->frontend) ? $service->frontend : [$service->frontend];
+    $backendArray = is_array($service->backend) ? $service->backend : [$service->backend];
+    $databaseArray = is_array($service->database) ? $service->database : [$service->database];
+@endphp
+
+<div id="techFields{{ $service->id }}" class="mt-3">
+    @foreach($frontendArray as $index => $frontend)
+    <div class="row align-items-center mb-2">
+        <div class="col-md-3">
+            <input type="text" name="frontend[]" value="{{ $frontend }}" class="form-control bg-transparent text-light border-danger" placeholder="Frontend">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="backend[]" value="{{ $backendArray[$index] ?? '' }}" class="form-control bg-transparent text-light border-danger" placeholder="Backend">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="database[]" value="{{ $databaseArray[$index] ?? '' }}" class="form-control bg-transparent text-light border-danger" placeholder="Database">
+        </div>
+        <div class="col-md-3 text-end">
+            <button type="button" class="btn btn-outline-danger btn-sm addTechBtn" data-service="{{ $service->id }}">
+                ➕ Add More
+            </button>
+        </div>
+    </div>
+    @endforeach
+</div>
+
 
                         </div>
                         <div class="modal-footer border-0">
@@ -165,6 +193,41 @@
         </div>
 
         <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    // একবারই কাজ করবে, একাধিকবার attach হবে না
+    $(document).off('click', '.addTechBtn').on('click', '.addTechBtn', function () {
+        const serviceId = $(this).data('service');
+        const container = $('#techFields' + serviceId);
+
+        // নতুন ১টা row তৈরি হবে
+        const newRow = $(`
+            <div class="row align-items-center mb-2">
+                <div class="col-md-3">
+                    <input type="text" name="frontend[]" class="form-control bg-transparent text-light border-danger"
+                        placeholder="Frontend">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="backend[]" class="form-control bg-transparent text-light border-danger"
+                        placeholder="Backend">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="database[]" class="form-control bg-transparent text-light border-danger"
+                        placeholder="Database">
+                </div>
+                <div class="col-md-3 text-end">
+                    <button type="button" class="btn btn-outline-light btn-sm removeTechBtn">✖ Remove</button>
+                </div>
+            </div>
+        `);
+
+        container.append(newRow);
+    });
+
+    // Remove button কাজ করবে
+    $(document).off('click', '.removeTechBtn').on('click', '.removeTechBtn', function () {
+        $(this).closest('.row').remove();
+    });
+});
         $(document).ready(function() {
             $('#summernote{{ $service->id }}').summernote({
                 placeholder: 'Short description...',
@@ -251,5 +314,12 @@
 }
 .note-editor.note-frame .note-editing-area .note-editable:focus {
     outline: 2px solid #dc3545 !important;
+}
+#techFields{{ $service->id }} input::placeholder {
+    color: #aaa !important;
+}
+#techFields{{ $service->id }} input:focus {
+    border-color: #ff4d6d !important;
+    box-shadow: 0 0 6px #ff4d6d !important;
 }
 </style>

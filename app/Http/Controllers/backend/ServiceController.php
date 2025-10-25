@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller
 {
      //  Show all services
-    public function service()
+     public function service()
     {
         $services = Service::latest()->get();
         return view('backend.service.service', compact('services'));
@@ -24,27 +24,29 @@ class ServiceController extends Controller
         $service->title = $request->title;
         $service->description = $request->description;
 
-        //  Image upload
-        if($request->hasFile('image')){
-            $imageName = rand().'-service-'.time().'.'.$request->image->extension();
+        // 🔸 Image Upload
+        if ($request->hasFile('image')) {
+            $imageName = rand() . '-service-' . time() . '.' . $request->image->extension();
             $request->image->move(public_path('backend/images/service/'), $imageName);
             $service->image = $imageName;
         }
 
-        //  What You Get
+        $service->starting_price = $request->starting_price;
+
+        // 🔸 What You Get
         $service->get_icon = $request->get_icon;
         $service->get_title = $request->get_title;
         $service->get_description = $request->get_description;
 
-        //  Workflow
+        // 🔸 Workflow
         $service->workflow_title = $request->workflow_title;
         $service->workflow_description = $request->workflow_description;
         $service->workflow_deadline = $request->workflow_deadline;
 
-        //  Technologies
-        $service->frontend = $request->frontend;
-        $service->backend = $request->backend;
-        $service->database = $request->database;
+        // 🔸 Technologies (converted from comma-separated input)
+        $service->frontend = $this->cleanTechInput($request->frontend);
+        $service->backend = $this->cleanTechInput($request->backend);
+        $service->database = $this->cleanTechInput($request->database);
 
         $service->save();
 
@@ -60,32 +62,34 @@ class ServiceController extends Controller
         $service->title = $request->title;
         $service->description = $request->description;
 
-        //  Replace image if new one is uploaded
-        if($request->hasFile('image')){
-            if($service->image && file_exists(public_path('backend/images/service/'.$service->image))){
-                unlink(public_path('backend/images/service/'.$service->image));
+        // 🔸 Replace image if new one is uploaded
+        if ($request->hasFile('image')) {
+            if ($service->image && file_exists(public_path('backend/images/service/' . $service->image))) {
+                unlink(public_path('backend/images/service/' . $service->image));
             }
-            $imageName = rand().'-serviceup-'.time().'.'.$request->image->extension();
+            $imageName = rand() . '-serviceup-' . time() . '.' . $request->image->extension();
             $request->image->move(public_path('backend/images/service/'), $imageName);
             $service->image = $imageName;
         }
 
-        //  What You Get
+        $service->starting_price = $request->starting_price;
+
+        // 🔸 What You Get
         $service->get_icon = $request->get_icon;
         $service->get_title = $request->get_title;
         $service->get_description = $request->get_description;
 
-        //  Workflow
+        // 🔸 Workflow
         $service->workflow_title = $request->workflow_title;
         $service->workflow_description = $request->workflow_description;
         $service->workflow_deadline = $request->workflow_deadline;
 
-        //  Technologies
-        $service->frontend = $request->frontend;
-        $service->backend = $request->backend;
-        $service->database = $request->database;
+        // 🔸 Technologies (cleaned)
+        $service->frontend = $this->cleanTechInput($request->frontend);
+        $service->backend = $this->cleanTechInput($request->backend);
+        $service->database = $this->cleanTechInput($request->database);
 
-        $service->save();
+        $service->update();
 
         return redirect()->back()->with('success', '✅ Service Updated Successfully!');
     }
@@ -95,12 +99,22 @@ class ServiceController extends Controller
     {
         $service = Service::findOrFail($id);
 
-        if($service->image && file_exists(public_path('backend/images/service/'.$service->image))){
-            unlink(public_path('backend/images/service/'.$service->image));
+        if ($service->image && file_exists(public_path('backend/images/service/' . $service->image))) {
+            unlink(public_path('backend/images/service/' . $service->image));
         }
 
         $service->delete();
 
         return redirect()->back()->with('success', '🗑️ Service Deleted Successfully!');
+    }
+
+    // 🧩 Helper: Clean technology input (remove null, brackets, quotes)
+    private function cleanTechInput($value)
+    {
+        if (is_array($value)) {
+            $value = array_filter($value, fn($v) => !empty($v) && strtolower($v) !== 'null');
+            return implode(', ', $value);
+        }
+        return $value ? trim($value) : null;
     }
 }

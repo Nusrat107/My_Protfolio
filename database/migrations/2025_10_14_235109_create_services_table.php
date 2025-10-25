@@ -18,6 +18,8 @@ return new class extends Migration
             $table->longText('description')->nullable();
             
             $table->string('image')->nullable();
+            $table->string('starting_price');
+
 
             // What You Get section
             $table->string('get_icon')->nullable();

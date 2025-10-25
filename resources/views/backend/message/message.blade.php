@@ -13,6 +13,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Phone</th>
                     <th>Subject</th>
                     <th>Message</th>
                     <th>Status</th>
@@ -24,6 +25,7 @@
                 <tr class="{{ $msg->is_read ? '' : 'table-active' }}">
                     <td>{{ $msg->name }}</td>
                     <td>{{ $msg->email }}</td>
+                    <td>{{ $msg->phone }}</td>
                     <td>{{ $msg->subject }}</td>
                     <td>{{ Str::limit($msg->message, 40) }}</td>
                     <td>
